@@ -76,12 +76,8 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'module_db1',
-        'USER': 'moduluser',
-        'PASSWORD': 'mypass',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'mydatabase',
     }
 }
 
@@ -130,6 +126,10 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 PURCHASE_RETURN_TIME = 3    #time in minutes
+
+STATICFILES_DIRS = ['myapp/static']
+
+STATIC_ROOT = 'static'
 
 if os.environ.get('PROD'):
     try:
