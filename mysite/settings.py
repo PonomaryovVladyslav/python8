@@ -153,17 +153,9 @@ AWS_SECRET_ACCESS_KEY = os.environ.get('ACCESS_KEY')
 # Tell the staticfiles app to use S3Boto3 storage when writing the collected static files (when
 # you run `collectstatic`).
 
-from storages.backends.s3boto3 import S3Boto3Storage
 
+STATICFILES_LOCATION = 'static'
+STATICFILES_STORAGE = 'myapp.custom_storages.StaticStorage'
 
-class StaticStorage(S3Boto3Storage):
-    location = 'static'
-
-
-class MediaStorage(S3Boto3Storage):
-    location = 'media'
-
-
-STATICFILES_STORAGE = StaticStorage
-
-DEFAULT_FILE_STORAGE = MediaStorage
+MEDIAFILES_LOCATION = 'media'
+DEFAULT_FILE_STORAGE = 'myapp.custom_storages.MediaStorage'
