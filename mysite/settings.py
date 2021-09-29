@@ -12,9 +12,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -26,7 +26,6 @@ SECRET_KEY = '#u%#cy51=o&a$oi5!jg8d6eod(#c6uzp)h_^1$hrq66)%s&j7o'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -71,7 +70,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -83,7 +81,6 @@ DATABASES = {
 }
 
 AUTH_USER_MODEL = 'myapp.MyUser'
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -104,7 +101,6 @@ AUTH_USER_MODEL = 'myapp.MyUser'
 # ]
 
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -118,7 +114,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
@@ -126,7 +121,7 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-PURCHASE_RETURN_TIME = 3    #time in minutes
+PURCHASE_RETURN_TIME = 3  # time in minutes
 
 STATICFILES_DIRS = ['myapp/static']
 
@@ -143,7 +138,6 @@ else:
     except ImportError:
         pass
 
-
 # Optional
 AWS_S3_OBJECT_PARAMETERS = {
     'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
@@ -158,8 +152,18 @@ AWS_SECRET_ACCESS_KEY = os.environ.get('ACCESS_KEY')
 
 # Tell the staticfiles app to use S3Boto3 storage when writing the collected static files (when
 # you run `collectstatic`).
-STATICFILES_LOCATION = 'static'
-STATICFILES_STORAGE = 'custom_storages.StaticStorage'
 
-MEDIAFILES_LOCATION = 'media'
-DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
+from storages.backends.s3boto3 import S3Boto3Storage
+
+
+class StaticStorage(S3Boto3Storage):
+    location = 'static'
+
+
+class MediaStorage(S3Boto3Storage):
+    location = 'media'
+
+
+STATICFILES_STORAGE = StaticStorage
+
+DEFAULT_FILE_STORAGE = MediaStorage
