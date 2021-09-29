@@ -1,7 +1,7 @@
 import os
 
 DEBUG = False
-ALLOWED_HOSTS = ['18.185.174.235', '18.185.174.235:8000']
+ALLOWED_HOSTS = ['a-level-test.com']
 
 DATABASES = {
     'default': {
